@@ -1,7 +1,12 @@
 import React from "react";
+import Meal from "./Meals/Meal";
 
 const NutritionPage = () => {
-  return <div>NutritionPage</div>;
+  return (
+    <>
+      <Meal />
+    </>
+  );
 };
 
 export default NutritionPage;

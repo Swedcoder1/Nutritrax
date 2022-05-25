@@ -49,7 +49,7 @@ const Navbar = () => {
               }
             >
               <NavLink
-                to="/"
+                to="/nutrution"
                 className={({ isActive }) =>
                   isActive
                     ? "bg-green-400 no-underline text-white w-full text-xl py-3 pl-3"
@@ -77,7 +77,7 @@ const Navbar = () => {
             {/* Laptop*/}
             <div className="flex justify-center mr-4">
               <NavLink
-                to="/"
+                to="/nutrition"
                 // className="no-underline text-black text-lg"
                 className={({ isActive }) =>
                   isActive
