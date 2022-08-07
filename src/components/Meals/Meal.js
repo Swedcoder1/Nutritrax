@@ -12,15 +12,9 @@ const Meal = (props) => {
   return (
     <>
       <div className="flex flex-col text-center mt-16">
-        <h1 className="text-2xl mb-6">Your daily nutrition</h1>
+        <h1 className="text-2xl mb-6 font-semibold">Your daily nutrition</h1>
         <div>
           <p className="text-xl">Total</p>
-          {/* <div className="flex justify-around w-1/4 m-auto mt-2">
-            <p>Kcal:</p>
-            <p>P:</p>
-            <p>C:</p>
-            <p>F:</p>
-          </div> */}
           <TotalNutritionCount />
         </div>
       </div>

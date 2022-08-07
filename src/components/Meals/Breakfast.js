@@ -153,14 +153,40 @@ const Breakfast = (props) => {
     setOpen(!open);
   };
 
+  const totalKcal = storeFood.reduce(
+    (prevValue, currentValue) => prevValue + currentValue.calories,
+    0
+  );
+
+  const totalProtein = storeFood.reduce(
+    (prevValue, currentValue) => prevValue + currentValue.protein_g,
+    0
+  );
+
+  const totalCarbs = storeFood.reduce(
+    (prevValue, currentValue) => prevValue + currentValue.carbohydrates_total_g,
+    0
+  );
+
+  const totalFat = storeFood.reduce(
+    (prevValue, currentValue) => prevValue + currentValue.fat_total_g,
+    0
+  );
+
   return (
     <>
       <div>
         <h1 className="text-2xl font-semibold text-center mt-10">Breakfast</h1>
-        <NutritionCount storeFood={storeFood} />
+        <NutritionCount
+          storeFood={storeFood}
+          totalKcal={totalKcal}
+          totalProtein={totalProtein}
+          totalCarbs={totalCarbs}
+          totalFat={totalFat}
+        />
       </div>
 
-      <div className="flex flex-col-reverse md:flex-row justify-around m-auto mt-8">
+      <div className="flex flex-col-reverse lg:flex-row justify-around w-8/12 m-auto mt-8">
         <div>
           <div className="border-b-2 border-gray-400">
             <p className="text-center">Added items</p>
@@ -183,7 +209,7 @@ const Breakfast = (props) => {
         </div>
         <div>
           <div className="flex flex-col">
-            <div className="flex mt-5">
+            <div className="flex mt-5 mb-10 md:mb-0 justify-center">
               <input
                 type="text"
                 name="search"

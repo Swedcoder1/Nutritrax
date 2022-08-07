@@ -6,7 +6,7 @@ const FoodItem = (props) => {
     <>
       <div
         // onClick={handleOpen}
-        className="mt-4 py-3 px-2 rounded-md shadow-md bg-gray-100"
+        className="mt-4 py-3 px-2  rounded-md shadow-md bg-gray-100"
       >
         <div className="flex justify-between items-center">
           <div className="flex items-center">

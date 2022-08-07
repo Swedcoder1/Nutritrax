@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import NutritionOverview from "./NutritionOverview";
 
 const DinnerOV = (props) => {
   const { storeFoodDinner, setStoreFoodDinner } = props;
@@ -47,18 +48,40 @@ const DinnerOV = (props) => {
   );
 
   return (
-    <div className="flex border-b-2 border-black w-2/5 m-auto pb-2 mt-14">
-      <Link to="/nutrition/dinner" className="flex justify-around w-5/6">
-        <p className="font-semibold w-12">Dinner</p>
-        <div className="flex justify-around w-9/12">
-          <p>Kcal: {Math.round(totalKcal * 10) / 10}</p>
-          <p>C: {Math.round(totalCarbs * 10) / 10}g</p>
-          <p>F: {Math.round(totalFat * 10) / 10}g</p>
-          <p>P: {Math.round(totalProtein * 10) / 10}g</p>
+    // <div className="flex w-2/5 m-auto mt-14 bg-green-100 py-6">
+    <Link
+      to="/nutrition/dinner"
+      // className="flex justify-around w-3/6 m-auto mt-14 bg-green-100 py-6 rounded-md items-center"
+    >
+      <NutritionOverview
+        title="Dinner"
+        totalKcal={totalKcal}
+        totalCarbs={totalCarbs}
+        totalFat={totalFat}
+        totalProtein={totalProtein}
+      />
+      {/* <p className="font-semibold text-xl w-12">Dinner</p>
+      <div className="flex justify-around w-8/12 ">
+        <div className="flex">
+          <p>Kcal:</p>
+          <span className="font-semibold ml-1">{totalKcal.toFixed(1)}</span>
         </div>
-        {/* <NutritionCount storeFood={storeFood} /> */}
-      </Link>
-    </div>
+        <div className="flex">
+          <p>C:</p>
+          <span className="font-semibold ml-1">{totalCarbs.toFixed(1)}g</span>
+        </div>
+        <div className="flex">
+          <p>F:</p>
+          <span className="font-semibold ml-1">{totalFat.toFixed(1)}g</span>
+        </div>
+        <div className="flex">
+          <p>P:</p>
+          <span className="font-semibold ml-1">{totalProtein.toFixed(1)}g</span>
+        </div>
+      </div> */}
+      {/* <NutritionCount storeFood={storeFood} /> */}
+    </Link>
+    // </div>
   );
 };
 

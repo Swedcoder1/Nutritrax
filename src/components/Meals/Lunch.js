@@ -3,6 +3,7 @@ import axios from "axios";
 import FoodItem from "./FoodItem";
 import SearchedFoodItem from "./SearchedFoodItem";
 import NutritionCountLunch from "./NutritionCountLunch";
+import NutritionCount from "./NutritionCount";
 
 const Lunch = (props) => {
   const { storeFoodLunch, setStoreFoodLunch } = props;
@@ -152,11 +153,37 @@ const Lunch = (props) => {
     setOpen(!open);
   };
 
+  const totalKcal = storeFoodLunch.reduce(
+    (prevValue, currentValue) => prevValue + currentValue.calories,
+    0
+  );
+
+  const totalProtein = storeFoodLunch.reduce(
+    (prevValue, currentValue) => prevValue + currentValue.protein_g,
+    0
+  );
+
+  const totalCarbs = storeFoodLunch.reduce(
+    (prevValue, currentValue) => prevValue + currentValue.carbohydrates_total_g,
+    0
+  );
+
+  const totalFat = storeFoodLunch.reduce(
+    (prevValue, currentValue) => prevValue + currentValue.fat_total_g,
+    0
+  );
+
   return (
     <>
       <div>
         <h1 className="text-2xl font-semibold text-center mt-10">Lunch</h1>
-        <NutritionCountLunch storeFoodLunch={storeFoodLunch} />
+        <NutritionCount
+          storeFoodLunch={storeFoodLunch}
+          totalKcal={totalKcal}
+          totalProtein={totalProtein}
+          totalCarbs={totalCarbs}
+          totalFat={totalFat}
+        />
       </div>
 
       <div className="flex flex-col-reverse md:flex-row justify-around m-auto mt-8">

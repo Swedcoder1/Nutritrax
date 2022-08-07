@@ -26,7 +26,7 @@ const TotalNutritionCount = () => {
     // return () => (mounted = false);
   }, []);
 
-  //Flatten out array with objects from breakfast , lunch and dinner.
+  //Flatten out array with objects from breakfast, lunch and dinner.
   const flattenArray = storeTotalFood.reduce(
     (previousValue, currentValue) => previousValue.concat(currentValue),
     []
@@ -53,11 +53,35 @@ const TotalNutritionCount = () => {
   );
   return (
     <div className="flex justify-center w-2/5 m-auto pb-2">
-      <div className="flex justify-around w-9/12">
-        <p>Kcal: {Math.round(totalKcal * 10) / 10}</p>
-        <p>C: {Math.round(totalCarbs * 10) / 10}g</p>
-        <p>F: {Math.round(totalFat * 10) / 10}g</p>
-        <p>P: {Math.round(totalProtein * 10) / 10}g</p>
+      <div className="flex justify-around w-9/12 text-lg">
+        <div className="flex">
+          <p>Kcal:</p>
+          <span className="font-semibold ml-1 mr-3 ">
+            {totalKcal.toFixed(1)}
+          </span>
+        </div>
+        <div className="flex">
+          <p>C:</p>
+          <span className="font-semibold mx-1 mr-3 ">
+            {totalCarbs.toFixed(1)}g
+          </span>
+        </div>
+        <div className="flex">
+          <p>F:</p>
+          <span className="font-semibold mx-1 mr-3 ">
+            {totalFat.toFixed(1)}g
+          </span>
+        </div>
+        <div className="flex">
+          <p>P:</p>
+          <span className="font-semibold mx-1 mr-3 ">
+            {totalProtein.toFixed(1)}g
+          </span>
+        </div>
+        {/* <p>Kcal: {totalKcal.toFixed(1)}</p>
+        <p>C: {totalCarbs.toFixed(1)}g</p>
+        <p>F: {totalFat.toFixed(1)}g</p>
+        <p>P: {totalProtein.toFixed(1)}g</p> */}
       </div>
     </div>
   );

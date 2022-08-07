@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
-import NutritionCount from "../NutritionCount";
+import NutritionOverview from "./NutritionOverview";
 
 const BreakfastOV = (props) => {
   const { storeFood, setStoreFood } = props;
@@ -49,16 +48,15 @@ const BreakfastOV = (props) => {
   );
 
   return (
-    <div className="flex border-b-2 border-black w-2/5 m-auto pb-2 mt-14">
-      <Link to="/nutrition/breakfast" className="flex justify-around w-5/6">
-        <p className="font-semibold w-12">Breakfast</p>
-        <div className="flex justify-around w-9/12">
-          <p>Kcal: {Math.round(totalKcal * 10) / 10}</p>
-          <p>C: {Math.round(totalCarbs * 10) / 10}g</p>
-          <p>F: {Math.round(totalFat * 10) / 10}g</p>
-          <p>P: {Math.round(totalProtein * 10) / 10}g</p>
-        </div>
-        {/* <NutritionCount storeFood={storeFood} /> */}
+    <div>
+      <Link to="/nutrition/breakfast">
+        <NutritionOverview
+          title="Breakfast"
+          totalKcal={totalKcal}
+          totalCarbs={totalCarbs}
+          totalFat={totalFat}
+          totalProtein={totalProtein}
+        />
       </Link>
     </div>
   );
