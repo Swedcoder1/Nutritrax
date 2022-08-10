@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import FoodItem from "./FoodItem";
 import SearchedFoodItem from "./SearchedFoodItem";
-import NutritionCountLunch from "./NutritionCountLunch";
 import NutritionCount from "./NutritionCount";
+import { BiArrowBack } from "react-icons/bi";
+import Message from "./Message";
 
 const Lunch = (props) => {
   const { storeFoodLunch, setStoreFoodLunch } = props;
   const [food, setFood] = useState("");
   const [apiResult, setApiResult] = useState([]);
   const [isTrue, setIsTrue] = useState(false);
-  // const [storeFood, setStoreFood] = useState([]);
   const [open, setOpen] = useState(false);
   const [alert, setAlert] = useState(false);
   const [success, setSuccess] = useState(false);
   const [deleteAlert, setDeleteAlert] = useState(false);
+  const [error, setError] = useState(false);
 
   const getData = () => {
     const options = {
@@ -32,6 +34,7 @@ const Lunch = (props) => {
       })
       .catch((error) => {
         console.log(error);
+        setError(true);
       });
   };
 
@@ -46,8 +49,10 @@ const Lunch = (props) => {
       })
       .catch(function (error) {
         console.log(error);
+        setError(true);
       });
     setApiResult([]);
+    setFood("");
     setSuccess(true);
     setAlert(true);
   };
@@ -69,40 +74,19 @@ const Lunch = (props) => {
     }
   }, [alert]);
 
-  // useEffect(() => {
-  //   const getDatabaseData = () => {
-  //     axios
-  //       .get("http://localhost:5000/getData")
-  //       .then((response) => {
-  //         console.log(response);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   };
-  // }, []);
-
-  //Get data from mongoDB.
-  const getDatabaseData = () => {
+  //Get database item when page load.
+  useEffect(() => {
     axios
       .get("http://localhost:5000/getDataLunch")
       .then((response) => {
         console.log(response.data);
         setStoreFoodLunch(response.data);
-
-        // console.log("storefood:" + storeFood);
       })
       .catch((error) => {
         console.log(error);
+        setError(true);
       });
-  };
-
-  //Get database item when page load.
-  useEffect(() => {
-    // let mounted = true;
-    getDatabaseData();
-    // return () => (mounted = false);
-  }, []);
+  }, [setStoreFoodLunch]);
 
   //Get data when success triggers.
   useEffect(() => {
@@ -110,10 +94,18 @@ const Lunch = (props) => {
       return;
     } else {
       setTimeout(() => {
-        getDatabaseData();
+        axios
+          .get("http://localhost:5000/getDataLunch")
+          .then((response) => {
+            console.log(response.data);
+            setStoreFoodLunch(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }, 1500);
     }
-  }, [success]);
+  }, [success, setStoreFoodLunch]);
 
   const handleDelete = (name) => {
     console.log(name);
@@ -129,6 +121,7 @@ const Lunch = (props) => {
       })
       .catch((error) => {
         console.log(error);
+        setError(true);
       });
     setSuccess(true);
     setDeleteAlert(true);
@@ -141,13 +134,6 @@ const Lunch = (props) => {
       }, 1000);
     }
   }, [deleteAlert]);
-  // const handleChange = (e) => {
-  //   setName(e.target.value);
-  // };
-
-  // const searchName = () => {
-  //   setIsTrue(true);
-  // };
 
   const handleOpen = () => {
     setOpen(!open);
@@ -175,6 +161,16 @@ const Lunch = (props) => {
 
   return (
     <>
+      <div className="ml-2 mt-2 text-2xl">
+        <Link to="/">
+          <BiArrowBack />
+        </Link>
+      </div>
+
+      <div className="flex justify-center">
+        {error && <h3>Oops.. Something went wrong!</h3>}
+      </div>
+
       <div>
         <h1 className="text-2xl font-semibold text-center mt-10">Lunch</h1>
         <NutritionCount
@@ -242,22 +238,7 @@ const Lunch = (props) => {
         </div>
       </div>
       {/* Alert message */}
-      <div className="absolute bottom-4 ml-auto mr-auto left-0 right-0 w-36">
-        <div>
-          {alert && (
-            <p className="text-green-500 bg-gray-200 rounded-md font-semibold text-xl px-3 py-2 text-center">
-              Item added
-            </p>
-          )}
-        </div>
-        <div>
-          {deleteAlert && (
-            <h2 className="text-red-500 bg-gray-200 rounded-md font-semibold text-xl px-3 py-2 text-center">
-              Item deleted
-            </h2>
-          )}
-        </div>
-      </div>
+      <Message alert={alert} deleteAlert={deleteAlert} />
     </>
   );
 };

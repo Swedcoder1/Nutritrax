@@ -6,26 +6,18 @@ import NutritionOverview from "./NutritionOverview";
 const DinnerOV = (props) => {
   const { storeFoodDinner, setStoreFoodDinner } = props;
 
-  const getDatabaseData = () => {
+  //Get database item when page load.
+  useEffect(() => {
     axios
       .get("http://localhost:5000/getDataDinner")
       .then((response) => {
         console.log(response.data);
         setStoreFoodDinner(response.data);
-
-        // console.log("storefood:" + storeFood);
       })
       .catch((error) => {
         console.log(error);
       });
-  };
-
-  //Get database item when page load.
-  useEffect(() => {
-    // let mounted = true;
-    getDatabaseData();
-    // return () => (mounted = false);
-  }, []);
+  }, [setStoreFoodDinner]);
 
   const totalKcal = storeFoodDinner.reduce(
     (prevValue, currentValue) => prevValue + currentValue.calories,
@@ -48,11 +40,7 @@ const DinnerOV = (props) => {
   );
 
   return (
-    // <div className="flex w-2/5 m-auto mt-14 bg-green-100 py-6">
-    <Link
-      to="/nutrition/dinner"
-      // className="flex justify-around w-3/6 m-auto mt-14 bg-green-100 py-6 rounded-md items-center"
-    >
+    <Link to="/nutrition/dinner">
       <NutritionOverview
         title="Dinner"
         totalKcal={totalKcal}
@@ -60,28 +48,7 @@ const DinnerOV = (props) => {
         totalFat={totalFat}
         totalProtein={totalProtein}
       />
-      {/* <p className="font-semibold text-xl w-12">Dinner</p>
-      <div className="flex justify-around w-8/12 ">
-        <div className="flex">
-          <p>Kcal:</p>
-          <span className="font-semibold ml-1">{totalKcal.toFixed(1)}</span>
-        </div>
-        <div className="flex">
-          <p>C:</p>
-          <span className="font-semibold ml-1">{totalCarbs.toFixed(1)}g</span>
-        </div>
-        <div className="flex">
-          <p>F:</p>
-          <span className="font-semibold ml-1">{totalFat.toFixed(1)}g</span>
-        </div>
-        <div className="flex">
-          <p>P:</p>
-          <span className="font-semibold ml-1">{totalProtein.toFixed(1)}g</span>
-        </div>
-      </div> */}
-      {/* <NutritionCount storeFood={storeFood} /> */}
     </Link>
-    // </div>
   );
 };
 

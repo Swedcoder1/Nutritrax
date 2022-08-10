@@ -4,27 +4,18 @@ import axios from "axios";
 const TotalNutritionCount = () => {
   const [storeTotalFood, setStoreTotalFood] = useState([]);
 
-  const getDatabaseData = () => {
+  //Get database item when page load.
+  useEffect(() => {
     axios
       .get("http://localhost:5000/getTotalData")
       .then((response) => {
         console.log(response.data);
         setStoreTotalFood(response.data);
-        console.log("storeTotalFood:" + storeTotalFood);
-
-        // console.log("storefood:" + storeFood);
       })
       .catch((error) => {
         console.log(error);
       });
-  };
-
-  //Get database item when page load.
-  useEffect(() => {
-    // let mounted = true;
-    getDatabaseData();
-    // return () => (mounted = false);
-  }, []);
+  }, [setStoreTotalFood]);
 
   //Flatten out array with objects from breakfast, lunch and dinner.
   const flattenArray = storeTotalFood.reduce(
@@ -51,6 +42,11 @@ const TotalNutritionCount = () => {
     (prevValue, currentValue) => prevValue + currentValue.fat_total_g,
     0
   );
+
+  const carbsProcent = totalCarbs * 4;
+  const fatProcent = totalFat * 9;
+  const proteinProcent = totalProtein * 4;
+
   return (
     <div className="flex justify-center w-2/5 m-auto pb-2">
       <div className="flex justify-around w-9/12 text-lg">
@@ -62,26 +58,31 @@ const TotalNutritionCount = () => {
         </div>
         <div className="flex">
           <p>C:</p>
-          <span className="font-semibold mx-1 mr-3 ">
-            {totalCarbs.toFixed(1)}g
-          </span>
+          <div>
+            <span className="font-semibold mx-1 mr-3 ">
+              {totalCarbs.toFixed(1)}g
+            </span>
+            <p>({(carbsProcent / totalKcal).toFixed(1) * 100}%)</p>
+          </div>
         </div>
         <div className="flex">
           <p>F:</p>
-          <span className="font-semibold mx-1 mr-3 ">
-            {totalFat.toFixed(1)}g
-          </span>
+          <div>
+            <span className="font-semibold mx-1 mr-3 ">
+              {totalFat.toFixed(1)}g
+            </span>
+            <p>({(fatProcent / totalKcal).toFixed(1) * 100}%)</p>
+          </div>
         </div>
         <div className="flex">
           <p>P:</p>
-          <span className="font-semibold mx-1 mr-3 ">
-            {totalProtein.toFixed(1)}g
-          </span>
+          <div>
+            <span className="font-semibold mx-1 mr-3 ">
+              {totalProtein.toFixed(1)}g
+            </span>
+            <p>({(proteinProcent / totalKcal).toFixed(1) * 100}%)</p>
+          </div>
         </div>
-        {/* <p>Kcal: {totalKcal.toFixed(1)}</p>
-        <p>C: {totalCarbs.toFixed(1)}g</p>
-        <p>F: {totalFat.toFixed(1)}g</p>
-        <p>P: {totalProtein.toFixed(1)}g</p> */}
       </div>
     </div>
   );

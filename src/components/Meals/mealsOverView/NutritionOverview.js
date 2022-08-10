@@ -4,7 +4,7 @@ const NutritionOverview = (props) => {
   const { title, totalKcal, totalFat, totalCarbs, totalProtein } = props;
 
   return (
-    <div className="flex justify-around md:w-3/6 w-11/12 m-auto mt-6 mb-4 bg-green-100 py-7 rounded-md items-center">
+    <div className="flex justify-around md:w-3/6 w-11/12 m-auto mt-6 mb-4 bg-green-200 py-7 rounded-md items-center shadow-md">
       <p className="font-semibold md:text-xl text-base w-12">{title}</p>
       <div className="flex justify-around w-8/12 md:text-lg text-base">
         <div className="flex">

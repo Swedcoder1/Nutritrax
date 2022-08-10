@@ -6,26 +6,18 @@ import NutritionOverview from "./NutritionOverview";
 const LunchOV = (props) => {
   const { storeFoodLunch, setStoreFoodLunch } = props;
 
-  const getDatabaseData = () => {
+  //Get database item when page load.
+  useEffect(() => {
     axios
       .get("http://localhost:5000/getDataLunch")
       .then((response) => {
         console.log(response.data);
         setStoreFoodLunch(response.data);
-
-        // console.log("storefood:" + storeFood);
       })
       .catch((error) => {
         console.log(error);
       });
-  };
-
-  //Get database item when page load.
-  useEffect(() => {
-    // let mounted = true;
-    getDatabaseData();
-    // return () => (mounted = false);
-  }, []);
+  }, [setStoreFoodLunch]);
 
   const totalKcal = storeFoodLunch.reduce(
     (prevValue, currentValue) => prevValue + currentValue.calories,

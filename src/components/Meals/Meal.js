@@ -19,46 +19,13 @@ const Meal = (props) => {
         </div>
       </div>
 
-      {/* <div className="flex border-b-2 border-black w-2/5 m-auto pb-2 mt-14">
-        <Link to="/nutrition/breakfast" className="flex justify-around w-5/6">
-          <p className="font-semibold w-12">Breakfast</p>
-          <div className="flex justify-around w-5/6">
-            <p>Kcal:</p>
-            <p>P:</p>
-            <p>C:</p>
-            <p>F:</p>
-          </div>
-        </Link>
-      </div> */}
       <BreakfastOV storeFood={storeFood} setStoreFood={setStoreFood} />
 
-      {/* <div className="flex border-b-2 border-black w-2/5 m-auto pb-2 mt-10">
-        <Link to="/nutrition/lunch" className="flex justify-around w-5/6">
-          <p className="font-semibold w-12">Lunch</p>
-          <div className="flex justify-around w-5/6">
-            <p>Kcal:</p>
-            <p>P:</p>
-            <p>C:</p>
-            <p>F:</p>
-          </div>
-        </Link>
-      </div> */}
       <LunchOV
         storeFoodLunch={storeFoodLunch}
         setStoreFoodLunch={setStoreFoodLunch}
       />
 
-      {/* <div className="flex border-b-2 border-black w-2/5 m-auto pb-2 mt-10">
-        <Link to="/nutrition/dinner" className="flex justify-around w-5/6">
-          <p className="font-semibold w-12">Dinner</p>
-          <div className="flex justify-around w-5/6">
-            <p>Kcal:</p>
-            <p>P:</p>
-            <p>C:</p>
-            <p>F:</p>
-          </div>
-        </Link>
-      </div> */}
       <DinnerOV
         storeFoodDinner={storeFoodDinner}
         setStoreFoodDinner={setStoreFoodDinner}

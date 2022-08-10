@@ -3,7 +3,7 @@ import React from "react";
 const SearchedFoodItem = (props) => {
   const { foodItem, isTrue, addItem } = props;
   return (
-    <div className="flex justify-between md:mt-6 w-11/12 md:w-7/12 m-auto lg:m-0 lg:w-full bg-gray-100 shadow-lg rounded-sm px-4 py-2">
+    <div className="flex justify-between md:mt-6 w-11/12 md:w-7/12 m-auto lg:w-full bg-gray-100 shadow-lg rounded-sm px-4 py-2">
       <div>
         <div className="flex mb-2 items-center">
           <p className="font-semibold text-lg">

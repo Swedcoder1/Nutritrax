@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import FoodItem from "./FoodItem";
 import SearchedFoodItem from "./SearchedFoodItem";
-import NutritionCountDinner from "./NutritionCountDinner";
 import NutritionCount from "./NutritionCount";
+import { BiArrowBack } from "react-icons/bi";
+import Message from "./Message";
 
 const Dinner = (props) => {
   const { storeFoodDinner, setStoreFoodDinner } = props;
   const [food, setFood] = useState("");
   const [apiResult, setApiResult] = useState([]);
   const [isTrue, setIsTrue] = useState(false);
-  // const [storeFood, setStoreFood] = useState([]);
   const [open, setOpen] = useState(false);
   const [alert, setAlert] = useState(false);
   const [success, setSuccess] = useState(false);
   const [deleteAlert, setDeleteAlert] = useState(false);
+  const [error, setError] = useState(false);
 
   const getData = () => {
     const options = {
@@ -32,7 +34,9 @@ const Dinner = (props) => {
       })
       .catch((error) => {
         console.log(error);
+        setError(true);
       });
+    setFood("");
   };
 
   const addItem = (foodItem) => {
@@ -46,8 +50,11 @@ const Dinner = (props) => {
       })
       .catch(function (error) {
         console.log(error);
+        setError(true);
       });
     setApiResult([]);
+    setFood("");
+
     setSuccess(true);
     setAlert(true);
   };
@@ -69,40 +76,19 @@ const Dinner = (props) => {
     }
   }, [alert]);
 
-  // useEffect(() => {
-  //   const getDatabaseData = () => {
-  //     axios
-  //       .get("http://localhost:5000/getData")
-  //       .then((response) => {
-  //         console.log(response);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   };
-  // }, []);
-
-  //Get data from mongoDB.
-  const getDatabaseData = () => {
+  //Get database item when page load.
+  useEffect(() => {
     axios
       .get("http://localhost:5000/getDataDinner")
       .then((response) => {
         console.log(response.data);
         setStoreFoodDinner(response.data);
-
-        // console.log("storefood:" + storeFood);
       })
       .catch((error) => {
         console.log(error);
+        setError(true);
       });
-  };
-
-  //Get database item when page load.
-  useEffect(() => {
-    // let mounted = true;
-    getDatabaseData();
-    // return () => (mounted = false);
-  }, []);
+  }, [setStoreFoodDinner]);
 
   //Get data when success triggers.
   useEffect(() => {
@@ -110,10 +96,20 @@ const Dinner = (props) => {
       return;
     } else {
       setTimeout(() => {
-        getDatabaseData();
+        // getDatabaseData();
+        axios
+          .get("http://localhost:5000/getDataDinner")
+          .then((response) => {
+            console.log(response.data);
+            setStoreFoodDinner(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+            setError(true);
+          });
       }, 1500);
     }
-  }, [success]);
+  }, [success, setStoreFoodDinner]);
 
   const handleDelete = (name) => {
     console.log(name);
@@ -129,6 +125,7 @@ const Dinner = (props) => {
       })
       .catch((error) => {
         console.log(error);
+        setError(true);
       });
     setSuccess(true);
     setDeleteAlert(true);
@@ -141,13 +138,6 @@ const Dinner = (props) => {
       }, 1000);
     }
   }, [deleteAlert]);
-  // const handleChange = (e) => {
-  //   setName(e.target.value);
-  // };
-
-  // const searchName = () => {
-  //   setIsTrue(true);
-  // };
 
   const handleOpen = () => {
     setOpen(!open);
@@ -175,6 +165,14 @@ const Dinner = (props) => {
 
   return (
     <>
+      <div className="ml-2 mt-2 text-2xl">
+        <Link to="/">
+          <BiArrowBack />
+        </Link>
+      </div>
+      <div className="flex justify-center">
+        {error && <h3>Oops.. Something went wrong!</h3>}
+      </div>
       <div>
         <h1 className="text-2xl font-semibold text-center mt-10">Dinner</h1>
         <NutritionCount
@@ -241,22 +239,7 @@ const Dinner = (props) => {
         </div>
       </div>
       {/* Alert message */}
-      <div className="absolute bottom-4 ml-auto mr-auto left-0 right-0 w-36">
-        <div>
-          {alert && (
-            <p className="text-green-500 bg-gray-200 rounded-md font-semibold text-xl px-3 py-2 text-center">
-              Item added
-            </p>
-          )}
-        </div>
-        <div>
-          {deleteAlert && (
-            <h2 className="text-red-500 bg-gray-200 rounded-md font-semibold text-xl px-3 py-2 text-center">
-              Item deleted
-            </h2>
-          )}
-        </div>
-      </div>
+      <Message alert={alert} deleteAlert={deleteAlert} />
     </>
   );
 };

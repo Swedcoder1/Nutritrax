@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import FoodItem from "./FoodItem";
 import SearchedFoodItem from "./SearchedFoodItem";
 import NutritionCount from "./NutritionCount";
+import { BiArrowBack } from "react-icons/bi";
+import Message from "./Message";
 
 const Breakfast = (props) => {
   const { storeFood, setStoreFood } = props;
   const [food, setFood] = useState("");
   const [apiResult, setApiResult] = useState([]);
   const [isTrue, setIsTrue] = useState(false);
-  // const [storeFood, setStoreFood] = useState([]);
-  const [open, setOpen] = useState(false);
   const [alert, setAlert] = useState(false);
   const [success, setSuccess] = useState(false);
   const [deleteAlert, setDeleteAlert] = useState(false);
+  const [error, setError] = useState(false);
 
   const getData = () => {
+    //Om maten redan finns i storeFood return, annars in i databas.
     const options = {
       method: "GET",
       url: "http://localhost:5000/nutrition",
@@ -31,13 +34,12 @@ const Breakfast = (props) => {
       })
       .catch((error) => {
         console.log(error);
+        setError(true);
       });
   };
 
   const addItem = (foodItem) => {
-    //Skicka till backend -> backend skickar till mongoDB
-    console.log(foodItem);
-
+    //Send data to backend -> backend sends the data to mongoDB
     axios
       .post("http://localhost:5000/sendData", foodItem)
       .then(function (response) {
@@ -45,8 +47,10 @@ const Breakfast = (props) => {
       })
       .catch(function (error) {
         console.log(error);
+        setError(true);
       });
     setApiResult([]);
+    setFood("");
     setSuccess(true);
     setAlert(true);
   };
@@ -68,53 +72,41 @@ const Breakfast = (props) => {
     }
   }, [alert]);
 
-  // useEffect(() => {
-  //   const getDatabaseData = () => {
-  //     axios
-  //       .get("http://localhost:5000/getData")
-  //       .then((response) => {
-  //         console.log(response);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   };
-  // }, []);
-
-  //Get data from mongoDB.
-  const getDatabaseData = () => {
+  //Get database item when page load.
+  useEffect(() => {
     axios
       .get("http://localhost:5000/getData")
       .then((response) => {
         console.log(response.data);
         setStoreFood(response.data);
-
-        // console.log("storefood:" + storeFood);
       })
       .catch((error) => {
         console.log(error);
+        setError(true);
       });
-  };
+  }, [setStoreFood]);
 
-  //Get database item when page load.
-  useEffect(() => {
-    getDatabaseData();
-    // let mounted = true;
-    // getDatabaseData();
-    // return () => (mounted = false);
-  }, []);
-
-  //Get data when success triggers.
+  //Get data when item added and success triggers.
   useEffect(() => {
     if (!success) {
       return;
     } else {
       setTimeout(() => {
-        getDatabaseData();
+        axios
+          .get("http://localhost:5000/getData")
+          .then((response) => {
+            console.log(response.data);
+            setStoreFood(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+            setError(true);
+          });
       }, 1500);
     }
-  }, [success]);
+  }, [success, setStoreFood]);
 
+  //Delete item.
   const handleDelete = (name) => {
     console.log(name);
 
@@ -129,6 +121,7 @@ const Breakfast = (props) => {
       })
       .catch((error) => {
         console.log(error);
+        setError(true);
       });
     setSuccess(true);
     setDeleteAlert(true);
@@ -141,18 +134,8 @@ const Breakfast = (props) => {
       }, 1000);
     }
   }, [deleteAlert]);
-  // const handleChange = (e) => {
-  //   setName(e.target.value);
-  // };
 
-  // const searchName = () => {
-  //   setIsTrue(true);
-  // };
-
-  const handleOpen = () => {
-    setOpen(!open);
-  };
-
+  //Summerize nutrition value Kcal, Protein, Carbohydrates, Fat in data from mongoDb.
   const totalKcal = storeFood.reduce(
     (prevValue, currentValue) => prevValue + currentValue.calories,
     0
@@ -175,8 +158,18 @@ const Breakfast = (props) => {
 
   return (
     <>
+      <div className="ml-2 mt-2 text-xl">
+        <Link to="/">
+          <BiArrowBack />
+        </Link>
+      </div>
+
+      <div className="flex justify-center">
+        {error && <h3>Oops.. Something went wrong!</h3>}
+      </div>
+
       <div>
-        <h1 className="text-2xl font-semibold text-center mt-10">Breakfast</h1>
+        <h1 className="text-2xl font-semibold text-center mt-6">Breakfast</h1>
         <NutritionCount
           storeFood={storeFood}
           totalKcal={totalKcal}
@@ -186,22 +179,20 @@ const Breakfast = (props) => {
         />
       </div>
 
-      <div className="flex flex-col-reverse lg:flex-row justify-around w-8/12 m-auto mt-8">
+      <div className="flex flex-col-reverse lg:flex-row justify-around w-11/12 sm:w-8/12 lg:w-full m-auto mt-8">
         <div>
           <div className="border-b-2 border-gray-400">
-            <p className="text-center">Added items</p>
+            <p className="text-center mt-8 lg:mt-0">Added items</p>
             {/* List of items added */}
           </div>
           <div>
-            {storeFood.map((food, index) => {
+            {storeFood.map((food) => {
               return (
                 <FoodItem
                   key={food._id}
                   food={food}
                   deleteAlert={deleteAlert}
                   handleDelete={handleDelete}
-                  handleOpen={handleOpen}
-                  open={open}
                 />
               );
             })}
@@ -216,7 +207,7 @@ const Breakfast = (props) => {
                 id="search"
                 value={food}
                 onChange={(e) => setFood(e.target.value)}
-                className="outline outline-1 outline-gray-700 pr-6 pl-1 py-1 rounded-sm"
+                className="outline outline-1 outline-gray-700 md:pr-16 pl-1 py-2 rounded-sm"
               />
               <button
                 onClick={getData}
@@ -242,22 +233,7 @@ const Breakfast = (props) => {
         </div>
       </div>
       {/* Alert message */}
-      <div className="absolute bottom-4 ml-auto mr-auto left-0 right-0 w-36">
-        <div>
-          {alert && (
-            <p className="text-green-500 bg-gray-200 rounded-md font-semibold text-xl px-3 py-2 text-center">
-              Item added
-            </p>
-          )}
-        </div>
-        <div>
-          {deleteAlert && (
-            <h2 className="text-red-500 bg-gray-200 rounded-md font-semibold text-xl px-3 py-2 text-center">
-              Item deleted
-            </h2>
-          )}
-        </div>
-      </div>
+      <Message alert={alert} deleteAlert={deleteAlert} />
     </>
   );
 };
