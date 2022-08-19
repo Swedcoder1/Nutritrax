@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import NutritionOverview from "./NutritionOverview";
 
@@ -40,15 +39,14 @@ const LunchOV = (props) => {
   );
 
   return (
-    <Link to="/nutrition/lunch">
-      <NutritionOverview
-        title="Lunch"
-        totalKcal={totalKcal}
-        totalCarbs={totalCarbs}
-        totalFat={totalFat}
-        totalProtein={totalProtein}
-      />
-    </Link>
+    <NutritionOverview
+      link="nutrition/lunch"
+      title="Lunch"
+      totalKcal={totalKcal}
+      totalCarbs={totalCarbs}
+      totalFat={totalFat}
+      totalProtein={totalProtein}
+    />
   );
 };
 

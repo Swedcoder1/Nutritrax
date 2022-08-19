@@ -9,7 +9,6 @@ const TotalNutritionCount = () => {
     axios
       .get("http://localhost:5000/getTotalData")
       .then((response) => {
-        console.log(response.data);
         setStoreTotalFood(response.data);
       })
       .catch((error) => {

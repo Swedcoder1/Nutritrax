@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import NutritionOverview from "./NutritionOverview";
 
@@ -41,15 +40,14 @@ const BreakfastOV = (props) => {
 
   return (
     <div>
-      <Link to="/nutrition/breakfast">
-        <NutritionOverview
-          title="Breakfast"
-          totalKcal={totalKcal}
-          totalCarbs={totalCarbs}
-          totalFat={totalFat}
-          totalProtein={totalProtein}
-        />
-      </Link>
+      <NutritionOverview
+        link="nutrition/breakfast"
+        title="Breakfast"
+        totalKcal={totalKcal}
+        totalCarbs={totalCarbs}
+        totalFat={totalFat}
+        totalProtein={totalProtein}
+      />
     </div>
   );
 };

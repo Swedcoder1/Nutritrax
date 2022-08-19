@@ -1,4 +1,5 @@
 import React from "react";
+import { ImCross } from "react-icons/im";
 
 const FoodItem = (props) => {
   const { handleDelete, food } = props;
@@ -15,10 +16,10 @@ const FoodItem = (props) => {
           </div>
           <div>
             <button
-              className="text-red-600 hover:cursor-pointer"
+              className="text-red-500 hover:text-red-600 hover:cursor-pointer"
               onClick={() => handleDelete(food.name)}
             >
-              Delete
+              <ImCross className="text-lg" />
             </button>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import React from "react";
+import { IoAddCircle } from "react-icons/io5";
 
 const SearchedFoodItem = (props) => {
   const { foodItem, isTrue, addItem } = props;
@@ -20,12 +21,10 @@ const SearchedFoodItem = (props) => {
       </div>
       <div>
         {isTrue && (
-          <button
+          <IoAddCircle
             onClick={() => addItem(foodItem)}
-            className="bg-green-400 ml-2 px-6 py-1 rounded-sm text-white hover:bg-green-500"
-          >
-            Add
-          </button>
+            className="text-4xl text-green-500 hover:text-green-400 hover:cursor-pointer"
+          />
         )}
       </div>
     </div>

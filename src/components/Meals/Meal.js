@@ -11,7 +11,7 @@ const Meal = (props) => {
 
   return (
     <>
-      <div className="flex flex-col text-center mt-16">
+      <div className="flex flex-col text-center mt-10">
         <h1 className="text-2xl mb-6 font-semibold">Your daily nutrition</h1>
         <div>
           <p className="text-xl">Total</p>

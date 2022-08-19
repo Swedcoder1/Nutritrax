@@ -16,9 +16,9 @@ const Breakfast = (props) => {
   const [success, setSuccess] = useState(false);
   const [deleteAlert, setDeleteAlert] = useState(false);
   const [error, setError] = useState(false);
+  const [alreadyExist, setAlreadyExists] = useState(false);
 
   const getData = () => {
-    //Om maten redan finns i storeFood return, annars in i databas.
     const options = {
       method: "GET",
       url: "http://localhost:5000/nutrition",
@@ -28,31 +28,36 @@ const Breakfast = (props) => {
     axios
       .request(options)
       .then((response) => {
-        console.log("apiResult:" + response.data);
         setApiResult(response.data);
         setIsTrue(true);
       })
       .catch((error) => {
-        console.log(error);
         setError(true);
       });
   };
 
   const addItem = (foodItem) => {
     //Send data to backend -> backend sends the data to mongoDB
-    axios
-      .post("http://localhost:5000/sendData", foodItem)
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-        setError(true);
-      });
-    setApiResult([]);
-    setFood("");
-    setSuccess(true);
-    setAlert(true);
+    const found = storeFood.find((elem) => elem.name === foodItem.name);
+    if (found) {
+      setAlreadyExists(true);
+      setTimeout(() => {
+        setAlreadyExists(false);
+      }, 3000);
+      setApiResult([]);
+      setFood("");
+    } else {
+      axios
+        .post("http://localhost:5000/sendData", foodItem)
+        .then(function (response) {})
+        .catch(function (error) {
+          setError(true);
+        });
+      setApiResult([]);
+      setFood("");
+      setSuccess(true);
+      setAlert(true);
+    }
   };
 
   //Update itemlist when item added or deleted.
@@ -77,11 +82,9 @@ const Breakfast = (props) => {
     axios
       .get("http://localhost:5000/getData")
       .then((response) => {
-        console.log(response.data);
         setStoreFood(response.data);
       })
       .catch((error) => {
-        console.log(error);
         setError(true);
       });
   }, [setStoreFood]);
@@ -95,11 +98,9 @@ const Breakfast = (props) => {
         axios
           .get("http://localhost:5000/getData")
           .then((response) => {
-            console.log(response.data);
             setStoreFood(response.data);
           })
           .catch((error) => {
-            console.log(error);
             setError(true);
           });
       }, 1500);
@@ -108,19 +109,14 @@ const Breakfast = (props) => {
 
   //Delete item.
   const handleDelete = (name) => {
-    console.log(name);
-
     axios
       .delete("http://localhost:5000/deleteData", {
         data: {
           name: name,
         },
       })
-      .then((response) => {
-        console.log(response.status);
-      })
+      .then((response) => {})
       .catch((error) => {
-        console.log(error);
         setError(true);
       });
     setSuccess(true);
@@ -158,8 +154,8 @@ const Breakfast = (props) => {
 
   return (
     <>
-      <div className="ml-2 mt-2 text-xl">
-        <Link to="/">
+      <div className="ml-2 mt-2 text-3xl">
+        <Link to="/" className="inline-block w-8">
           <BiArrowBack />
         </Link>
       </div>
@@ -181,11 +177,10 @@ const Breakfast = (props) => {
 
       <div className="flex flex-col-reverse lg:flex-row justify-around w-11/12 sm:w-8/12 lg:w-full m-auto mt-8">
         <div>
-          <div className="border-b-2 border-gray-400">
-            <p className="text-center mt-8 lg:mt-0">Added items</p>
-            {/* List of items added */}
-          </div>
           <div>
+            <p className="text-center mt-8 lg:mt-0 font-semibold">
+              Added items
+            </p>
             {storeFood.map((food) => {
               return (
                 <FoodItem
@@ -211,15 +206,18 @@ const Breakfast = (props) => {
               />
               <button
                 onClick={getData}
-                className="bg-green-400 ml-2 px-7 py-2 rounded-sm text-white hover:bg-green-500"
+                className="bg-green-500 ml-2 px-7 py-2 rounded-sm text-white hover:bg-green-400"
               >
                 Search
               </button>
             </div>
           </div>
-
+          {alreadyExist && (
+            <p className="font-semibold text-lg mt-3">
+              Item already exist in added items
+            </p>
+          )}
           {apiResult.map((foodItem, index) => {
-            console.log(foodItem);
             return (
               <SearchedFoodItem
                 key={index}
@@ -232,7 +230,6 @@ const Breakfast = (props) => {
           })}
         </div>
       </div>
-      {/* Alert message */}
       <Message alert={alert} deleteAlert={deleteAlert} />
     </>
   );
