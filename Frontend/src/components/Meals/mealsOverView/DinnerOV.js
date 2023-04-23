@@ -18,25 +18,35 @@ const DinnerOV = (props) => {
       });
   }, [setStoreFoodDinner]);
 
-  const totalKcal = storeFoodDinner.reduce(
-    (prevValue, currentValue) => prevValue + currentValue.calories,
-    0
-  );
+  //Check if it is an array, if it is, use reduce else display 0
+  const totalKcal = Array.isArray(storeFoodDinner)
+    ? storeFoodDinner.reduce(
+        (prevValue, currentValue) => prevValue + currentValue.calories,
+        0
+      )
+    : 0;
 
-  const totalProtein = storeFoodDinner.reduce(
-    (prevValue, currentValue) => prevValue + currentValue.protein_g,
-    0
-  );
+  const totalProtein = Array.isArray(storeFoodDinner)
+    ? storeFoodDinner.reduce(
+        (prevValue, currentValue) => prevValue + currentValue.protein_g,
+        0
+      )
+    : 0;
 
-  const totalCarbs = storeFoodDinner.reduce(
-    (prevValue, currentValue) => prevValue + currentValue.carbohydrates_total_g,
-    0
-  );
+  const totalCarbs = Array.isArray(storeFoodDinner)
+    ? storeFoodDinner.reduce(
+        (prevValue, currentValue) =>
+          prevValue + currentValue.carbohydrates_total_g,
+        0
+      )
+    : 0;
 
-  const totalFat = storeFoodDinner.reduce(
-    (prevValue, currentValue) => prevValue + currentValue.fat_total_g,
-    0
-  );
+  const totalFat = Array.isArray(storeFoodDinner)
+    ? storeFoodDinner.reduce(
+        (prevValue, currentValue) => prevValue + currentValue.fat_total_g,
+        0
+      )
+    : 0;
 
   return (
     <NutritionOverview
