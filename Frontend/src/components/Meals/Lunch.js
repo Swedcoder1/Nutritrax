@@ -22,7 +22,7 @@ const Lunch = (props) => {
   const getData = () => {
     const options = {
       method: "GET",
-      url: "http://localhost:5000/nutrition",
+      url: "https://nutritrax.vercel.app/nutrition",
       params: { query: food },
     };
 
@@ -49,7 +49,7 @@ const Lunch = (props) => {
       setFood("");
     } else {
       axios
-        .post("http://localhost:5000/sendDataLunch", foodItem)
+        .post("https://nutritrax.vercel.app/sendDataLunch", foodItem)
         .then(function (response) {})
         .catch(function (error) {
           setError(true);
@@ -81,7 +81,7 @@ const Lunch = (props) => {
   //Get database item when page load.
   useEffect(() => {
     axios
-      .get("http://localhost:5000/getDataLunch")
+      .get("https://nutritrax.vercel.app/getDataLunch")
       .then((response) => {
         setStoreFoodLunch(response.data);
       })
@@ -97,7 +97,7 @@ const Lunch = (props) => {
     } else {
       setTimeout(() => {
         axios
-          .get("http://localhost:5000/getDataLunch")
+          .get("https://nutritrax.vercel.app/getDataLunch")
           .then((response) => {
             setStoreFoodLunch(response.data);
           })
@@ -108,7 +108,7 @@ const Lunch = (props) => {
 
   const handleDelete = (name) => {
     axios
-      .delete("http://localhost:5000/deleteDataLunch", {
+      .delete("https://nutritrax.vercel.app/deleteDataLunch", {
         data: {
           name: name,
         },

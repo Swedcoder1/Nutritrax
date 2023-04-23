@@ -7,7 +7,7 @@ const TotalNutritionCount = () => {
   //Get database item when page load.
   useEffect(() => {
     axios
-      .get("http://localhost:5000/getTotalData")
+      .get("https://nutritrax.vercel.app/getTotalData")
       .then((response) => {
         setStoreTotalFood(response.data);
       })

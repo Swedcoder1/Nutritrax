@@ -8,7 +8,7 @@ const LunchOV = (props) => {
   //Get database item when page load.
   useEffect(() => {
     axios
-      .get("http://localhost:5000/getDataLunch")
+      .get("https://nutritrax.vercel.app/getDataLunch")
       .then((response) => {
         console.log(response.data);
         setStoreFoodLunch(response.data);
