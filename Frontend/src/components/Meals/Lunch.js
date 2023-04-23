@@ -133,25 +133,34 @@ const Lunch = (props) => {
     setOpen(!open);
   };
 
-  const totalKcal = storeFoodLunch.reduce(
-    (prevValue, currentValue) => prevValue + currentValue.calories,
-    0
-  );
+  const totalKcal = Array.isArray(storeFoodLunch)
+    ? storeFoodLunch.reduce(
+        (prevValue, currentValue) => prevValue + currentValue.calories,
+        0
+      )
+    : 0;
 
-  const totalProtein = storeFoodLunch.reduce(
-    (prevValue, currentValue) => prevValue + currentValue.protein_g,
-    0
-  );
+  const totalProtein = Array.isArray(storeFoodLunch)
+    ? storeFoodLunch.reduce(
+        (prevValue, currentValue) => prevValue + currentValue.protein_g,
+        0
+      )
+    : 0;
 
-  const totalCarbs = storeFoodLunch.reduce(
-    (prevValue, currentValue) => prevValue + currentValue.carbohydrates_total_g,
-    0
-  );
+  const totalCarbs = Array.isArray(storeFoodLunch)
+    ? storeFoodLunch.reduce(
+        (prevValue, currentValue) =>
+          prevValue + currentValue.carbohydrates_total_g,
+        0
+      )
+    : 0;
 
-  const totalFat = storeFoodLunch.reduce(
-    (prevValue, currentValue) => prevValue + currentValue.fat_total_g,
-    0
-  );
+  const totalFat = Array.isArray(storeFoodLunch)
+    ? storeFoodLunch.reduce(
+        (prevValue, currentValue) => prevValue + currentValue.fat_total_g,
+        0
+      )
+    : 0;
 
   return (
     <>

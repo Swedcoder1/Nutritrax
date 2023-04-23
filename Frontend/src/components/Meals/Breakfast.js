@@ -132,26 +132,34 @@ const Breakfast = (props) => {
   }, [deleteAlert]);
 
   //Summerize nutrition value Kcal, Protein, Carbohydrates, Fat in data from mongoDb.
-  const totalKcal = storeFood.reduce(
-    (prevValue, currentValue) => prevValue + currentValue.calories,
-    0
-  );
+  const totalKcal = Array.isArray(storeFood)
+    ? storeFood.reduce(
+        (prevValue, currentValue) => prevValue + currentValue.calories,
+        0
+      )
+    : 0;
 
-  const totalProtein = storeFood.reduce(
-    (prevValue, currentValue) => prevValue + currentValue.protein_g,
-    0
-  );
+  const totalProtein = Array.isArray(storeFood)
+    ? storeFood.reduce(
+        (prevValue, currentValue) => prevValue + currentValue.protein_g,
+        0
+      )
+    : 0;
 
-  const totalCarbs = storeFood.reduce(
-    (prevValue, currentValue) => prevValue + currentValue.carbohydrates_total_g,
-    0
-  );
+  const totalCarbs = Array.isArray(storeFood)
+    ? storeFood.reduce(
+        (prevValue, currentValue) =>
+          prevValue + currentValue.carbohydrates_total_g,
+        0
+      )
+    : 0;
 
-  const totalFat = storeFood.reduce(
-    (prevValue, currentValue) => prevValue + currentValue.fat_total_g,
-    0
-  );
-
+  const totalFat = Array.isArray(storeFood)
+    ? storeFood.reduce(
+        (prevValue, currentValue) => prevValue + currentValue.fat_total_g,
+        0
+      )
+    : 0;
   return (
     <>
       <div className="ml-2 mt-2 text-3xl">
