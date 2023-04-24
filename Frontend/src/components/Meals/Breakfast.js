@@ -8,7 +8,6 @@ import { BiArrowBack } from "react-icons/bi";
 import Message from "./Message";
 
 const Breakfast = ({ storeFood, setStoreFood }) => {
-  // const { storeFood, setStoreFood } = props;
   const [food, setFood] = useState("");
   const [apiResult, setApiResult] = useState([]);
   const [isTrue, setIsTrue] = useState(false);
@@ -28,7 +27,7 @@ const Breakfast = ({ storeFood, setStoreFood }) => {
     axios
       .request(options)
       .then((response) => {
-        console.log("Get data repsonse:" + JSON.stringify(response.data));
+        // console.log("Get data repsonse:" + JSON.stringify(response.data));
         const data = response.data;
         setApiResult(data);
         setIsTrue(true);
@@ -37,7 +36,7 @@ const Breakfast = ({ storeFood, setStoreFood }) => {
         setError(true);
       });
 
-    console.log("Apiresult:" + JSON.stringify(apiResult));
+    // console.log("Apiresult:" + JSON.stringify(apiResult));
   };
 
   const addItem = (foodItem) => {
