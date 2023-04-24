@@ -11,12 +11,16 @@ router.get("/nutrition", (req, res) => {
     params: { query: req.query.query },
     headers: {
       "X-Api-Key": process.env.API_KEY,
+      "Access-Control-Allow-Origin": "*",
     },
   };
 
   axios
     .request(options)
-    .then((response) => {})
+    .then((response) => {
+      console.log(response.data);
+      res.json(response.data);
+    })
     .catch((error) => {
       console.log(error);
     });
