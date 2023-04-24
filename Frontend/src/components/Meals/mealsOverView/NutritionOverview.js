@@ -1,8 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const NutritionOverview = (props) => {
-  const { title, totalKcal, totalFat, totalCarbs, totalProtein, link } = props;
+const NutritionOverview = ({
+  title,
+  totalKcal,
+  totalFat,
+  totalCarbs,
+  totalProtein,
+  link,
+}) => {
+  // const { title, totalKcal, totalFat, totalCarbs, totalProtein, link } = props;
 
   return (
     <Link
