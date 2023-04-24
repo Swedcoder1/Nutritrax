@@ -7,7 +7,7 @@ const TotalNutritionCount = () => {
   //Get database item when page load.
   useEffect(() => {
     axios
-      .get("https://nutritrax.vercel.app/getTotalData")
+      .get("http://localhost:5000/getTotalData")
       .then((response) => {
         setStoreTotalFood(response.data);
       })
@@ -17,41 +17,30 @@ const TotalNutritionCount = () => {
   }, [setStoreTotalFood]);
 
   //Flatten out array with objects from breakfast, lunch and dinner.
-  const flattenArray = Array.isArray(storeTotalFood)
-    ? storeTotalFood.reduce(
-        (previousValue, currentValue) => previousValue.concat(currentValue),
-        []
-      )
-    : 0;
+  const flattenArray = storeTotalFood.reduce(
+    (previousValue, currentValue) => previousValue.concat(currentValue),
+    []
+  );
 
-  const totalKcal = Array.isArray(storeTotalFood)
-    ? flattenArray.reduce(
-        (prevValue, currentValue) => prevValue + currentValue.calories,
-        0
-      )
-    : 0;
+  const totalKcal = flattenArray.reduce(
+    (prevValue, currentValue) => prevValue + currentValue.calories,
+    0
+  );
 
-  const totalProtein = Array.isArray(storeTotalFood)
-    ? flattenArray.reduce(
-        (prevValue, currentValue) => prevValue + currentValue.protein_g,
-        0
-      )
-    : 0;
+  const totalProtein = flattenArray.reduce(
+    (prevValue, currentValue) => prevValue + currentValue.protein_g,
+    0
+  );
 
-  const totalCarbs = Array.isArray(storeTotalFood)
-    ? flattenArray.reduce(
-        (prevValue, currentValue) =>
-          prevValue + currentValue.carbohydrates_total_g,
-        0
-      )
-    : 0;
+  const totalCarbs = flattenArray.reduce(
+    (prevValue, currentValue) => prevValue + currentValue.carbohydrates_total_g,
+    0
+  );
 
-  const totalFat = Array.isArray(storeTotalFood)
-    ? flattenArray.reduce(
-        (prevValue, currentValue) => prevValue + currentValue.fat_total_g,
-        0
-      )
-    : 0;
+  const totalFat = flattenArray.reduce(
+    (prevValue, currentValue) => prevValue + currentValue.fat_total_g,
+    0
+  );
 
   const carbsProcent = totalCarbs * 4;
   const fatProcent = totalFat * 9;
