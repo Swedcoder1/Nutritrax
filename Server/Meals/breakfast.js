@@ -21,7 +21,7 @@ router.get("/getData", (req, res) => {
     .find({})
     .toArray((err, collection) => {
       if (err) throw err;
-      res.send(collection);
+      res.json(collection);
     });
 });
 
@@ -31,7 +31,7 @@ router.delete("/deleteData", (req, res) => {
 
   db.collection("Breakfast").deleteOne(deleteItem, function (err, obj) {
     if (err) throw err;
-    res.send();
+    res.json();
   });
 });
 
