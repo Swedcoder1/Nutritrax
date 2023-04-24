@@ -7,8 +7,8 @@ import NutritionCount from "./NutritionCount";
 import { BiArrowBack } from "react-icons/bi";
 import Message from "./Message";
 
-const Breakfast = (props) => {
-  const { storeFood, setStoreFood } = props;
+const Breakfast = ({ storeFood, setStoreFood }) => {
+  // const { storeFood, setStoreFood } = props;
   const [food, setFood] = useState("");
   const [apiResult, setApiResult] = useState([]);
   const [isTrue, setIsTrue] = useState(false);
@@ -21,19 +21,23 @@ const Breakfast = (props) => {
   const getData = () => {
     const options = {
       method: "GET",
-      url: "https://nutritrax.vercel.app/nutrition",
+      url: "https://nutritrax-backend.vercel.app/nutrition",
       params: { query: food },
     };
 
     axios
       .request(options)
       .then((response) => {
-        setApiResult(response.data);
+        console.log("Get data repsonse:" + JSON.stringify(response.data));
+        const data = response.data;
+        setApiResult(data);
         setIsTrue(true);
       })
       .catch((error) => {
         setError(true);
       });
+
+    console.log("Apiresult:" + JSON.stringify(apiResult));
   };
 
   const addItem = (foodItem) => {
@@ -48,7 +52,7 @@ const Breakfast = (props) => {
       setFood("");
     } else {
       axios
-        .post("https://nutritrax.vercel.app/sendData", foodItem)
+        .post("https://nutritrax-backend.vercel.app/sendData", foodItem)
         .then(function (response) {})
         .catch(function (error) {
           setError(true);
@@ -80,9 +84,10 @@ const Breakfast = (props) => {
   //Get database item when page load.
   useEffect(() => {
     axios
-      .get("https://nutritrax.vercel.app/getData")
+      .get("https://nutritrax-backend.vercel.app/getData")
       .then((response) => {
         setStoreFood(response.data);
+        console.log("storefood:" + storeFood);
       })
       .catch((error) => {
         setError(true);
@@ -96,7 +101,7 @@ const Breakfast = (props) => {
     } else {
       setTimeout(() => {
         axios
-          .get("https://nutritrax.vercel.app/getData")
+          .get("https://nutritrax-backend.vercel.app/getData")
           .then((response) => {
             setStoreFood(response.data);
           })
@@ -110,7 +115,7 @@ const Breakfast = (props) => {
   //Delete item.
   const handleDelete = (name) => {
     axios
-      .delete("https://nutritrax.vercel.app/deleteData", {
+      .delete("https://nutritrax-backend.vercel.app/deleteData", {
         data: {
           name: name,
         },
@@ -189,16 +194,18 @@ const Breakfast = (props) => {
             <p className="text-center mt-8 lg:mt-0 font-semibold">
               Added items
             </p>
-            {storeFood.map((food) => {
-              return (
-                <FoodItem
-                  key={food._id}
-                  food={food}
-                  deleteAlert={deleteAlert}
-                  handleDelete={handleDelete}
-                />
-              );
-            })}
+            {Array.isArray(storeFood)
+              ? storeFood.map((food) => {
+                  return (
+                    <FoodItem
+                      key={food._id}
+                      food={food}
+                      deleteAlert={deleteAlert}
+                      handleDelete={handleDelete}
+                    />
+                  );
+                })
+              : null}
           </div>
         </div>
         <div>
